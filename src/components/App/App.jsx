@@ -5,17 +5,22 @@ import { Component } from 'react';
 export default class App extends Component {
   state = {
     nameImage: '',
+    page: 1
   };
 
-  valueSearch = ({ name }) => {
-    this.setState({ nameImage: name });
+  handleSearch = ({ name }) => {
+    this.setState({ nameImage: name, page: 1 });
+  };
+
+  countPage = () => {
+    this.setState(prev => ({ page: prev.page + 1 }));
   };
 
   render() {
     return (
       <div>
-        <Searchbar onSubmit={this.valueSearch} />
-        <ImageGallery nameImage={this.state.nameImage} />
+        <Searchbar onSubmit={this.handleSearch} />
+        <ImageGallery nameImage={this.state.nameImage}  page={this.state.page} countPage={this.countPage}/>
       </div>
     );
   }

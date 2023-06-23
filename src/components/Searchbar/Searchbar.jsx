@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 export default class SearchBar extends Component {
   state = {
-    name: '',
+    name: ''
   };
 
   handleChange = e => {

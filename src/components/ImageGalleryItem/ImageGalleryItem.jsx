@@ -1,7 +1,12 @@
-export default function ImageGalleryItem({ imageAPI }) {
-  return imageAPI.map(({ id, webformatURL }) => (
-    <li className="gallery-item" key={id}>
-      <img src={webformatURL} alt="" />
-    </li>
+import { ImageGalleryItemSt, ImageGalleryItemImage } from "./ImageGalleryItemStyled";
+
+
+export default function ImageGalleryItem({ ImageState }) {
+  // console.log(ImageState);
+  const { imageArr } = ImageState;
+  return imageArr.map(({ id, webformatURL }) => (
+    <ImageGalleryItemSt className="gallery-item" key={id}>
+      <ImageGalleryItemImage src={webformatURL} alt="" />
+    </ImageGalleryItemSt>
   ));
 }

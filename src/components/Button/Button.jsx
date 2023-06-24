@@ -1,11 +1,12 @@
+import { SubmitButton } from "./ButtonStyled";
 export default function LoadMore({ addImage }) {
   return (
-    <button
+    <SubmitButton
       onClick={() => {
         addImage();
       }}
     >
       LOAD MORE
-    </button>
+    </SubmitButton>
   );
 }

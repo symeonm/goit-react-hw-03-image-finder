@@ -16,3 +16,5 @@ export const ImageGalleryItemImage = styled.img`
     cursor: zoom-in;
   }
 `;
+
+

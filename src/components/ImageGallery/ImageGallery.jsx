@@ -28,19 +28,18 @@ export default class ImageGallery extends Component {
 
       apiImage(this.props.nameImage, this.props.page)
         .then(data => {
-          if (data.hits.length === 0) {
+          if (data.hits.length === 0 || this.props.nameImage === '') {
             this.setState({ imageArr: [], status: 'idle' });
             console.log(
               `Зображень за запитом: ${this.props.nameImage} не існує`
             );
           } else {
-            
             this.setState(prev => ({
               imageArr: [...prev.imageArr, ...data.hits],
               status: 'resolved',
               totalHits: data.totalHits,
             }));
-            this.props.handleTotalHits(data)
+            this.props.handleTotalHits(data);
           }
         })
         .catch(error =>
@@ -57,26 +56,22 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    
-
     if (this.state.status === 'resolved') {
       return (
-        (
-          <ImageList className="gallery">
-            <ImageGalleryItem
-              ImageState={this.state}
-              clickImage={this.clickImage}
-            />
-            {this.state.showModal && (
-              <Modal onClose={this.clickImage}>
-                <img
-                  src={this.state.modalImage}
-                  alt={this.state.modalImage}
-                ></img>
-              </Modal>
-            )}
-          </ImageList>
-        )
+        <ImageList className="gallery">
+          <ImageGalleryItem
+            ImageState={this.state}
+            clickImage={this.clickImage}
+          />
+          {this.state.showModal && (
+            <Modal onClose={this.clickImage}>
+              <img
+                src={this.state.modalImage}
+                alt={this.state.modalImage}
+              ></img>
+            </Modal>
+          )}
+        </ImageList>
       );
     }
 

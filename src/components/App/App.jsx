@@ -2,6 +2,7 @@ import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import { Component } from 'react';
 import  LoadMore  from "../Button/Button";
+import {AppStyle} from './AppStyledComponent';
 
 export default class App extends Component {
   state = {
@@ -30,12 +31,10 @@ export default class App extends Component {
 
   render() {
     const { imageArr, totalHits } = this.state;
-console.log(imageArr);
-console.log(totalHits);
     const hasMore = imageArr.length < totalHits && imageArr.length > 0;
 
     return (
-      <div>
+      <AppStyle>
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery
           nameImage={this.state.nameImage}
@@ -45,7 +44,7 @@ console.log(totalHits);
         />
         
         {hasMore && <LoadMore addImage={this.countPage}></LoadMore>}
-      </div>
+      </AppStyle>
     );
   }
 }

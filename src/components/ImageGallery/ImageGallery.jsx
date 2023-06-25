@@ -2,7 +2,7 @@ import { Component } from 'react';
 import ImageGalleryItem from '../ImageGalleryItem';
 import apiImage from '../service/ServiceGallery';
 import { ImageList } from './ImageGalleryStyled';
-import LoadMore from '../Button';
+
 import Loader from '../Loader/';
 import Modal from '../Modal';
 
@@ -12,6 +12,7 @@ export default class ImageGallery extends Component {
     status: 'idle',
     error: '',
     modalImage: '',
+    totalHits: '',
   };
 
   componentDidUpdate(prevProps, _) {
@@ -26,19 +27,20 @@ export default class ImageGallery extends Component {
       }
 
       apiImage(this.props.nameImage, this.props.page)
-        .then(imageArr => {
-          console.log(imageArr);
-
-          if (imageArr.hits.length === 0) {
+        .then(data => {
+          if (data.hits.length === 0) {
             this.setState({ imageArr: [], status: 'idle' });
             console.log(
               `Зображень за запитом: ${this.props.nameImage} не існує`
             );
           } else {
+            
             this.setState(prev => ({
-              imageArr: [...prev.imageArr, ...imageArr.hits],
+              imageArr: [...prev.imageArr, ...data.hits],
               status: 'resolved',
+              totalHits: data.totalHits,
             }));
+            this.props.handleTotalHits(data)
           }
         })
         .catch(error =>
@@ -48,13 +50,18 @@ export default class ImageGallery extends Component {
   }
 
   clickImage = img => {
-    this.setState(({ showModal }) => ({ showModal: !showModal, modalImage: img }))
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+      modalImage: img,
+    }));
   };
 
   render() {
+    
+
     if (this.state.status === 'resolved') {
       return (
-        <div>
+        (
           <ImageList className="gallery">
             <ImageGalleryItem
               ImageState={this.state}
@@ -69,8 +76,7 @@ export default class ImageGallery extends Component {
               </Modal>
             )}
           </ImageList>
-          <LoadMore addImage={this.props.countPage}></LoadMore>
-        </div>
+        )
       );
     }
 

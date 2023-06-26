@@ -2,7 +2,7 @@ import { Component } from 'react';
 import ImageGalleryItem from '../ImageGalleryItem';
 import apiImage from '../service/ServiceGallery';
 import { ImageList } from './ImageGalleryStyled';
-
+import LoadMore from '../Button/Button';
 import Loader from '../Loader/';
 import Modal from '../Modal';
 
@@ -39,7 +39,6 @@ export default class ImageGallery extends Component {
               status: 'resolved',
               totalHits: data.totalHits,
             }));
-            this.props.handleTotalHits(data);
           }
         })
         .catch(error =>
@@ -56,30 +55,35 @@ export default class ImageGallery extends Component {
   };
 
   render() {
-    if (this.state.status === 'resolved') {
+    const {imageArr, totalHits, status, modalImage, showModal}= this.state
+    const hasMore = imageArr.length < totalHits && imageArr.length > 0;
+    if (status === 'resolved') {
       return (
-        <ImageList className="gallery">
-          <ImageGalleryItem
-            ImageState={this.state}
-            clickImage={this.clickImage}
-          />
-          {this.state.showModal && (
-            <Modal onClose={this.clickImage}>
-              <img
-                src={this.state.modalImage}
-                alt={this.state.modalImage}
-              ></img>
-            </Modal>
-          )}
-        </ImageList>
+        <>
+          <ImageList className="gallery">
+            <ImageGalleryItem
+              ImageState={this.state}
+              clickImage={this.clickImage}
+            />
+            {showModal && (
+              <Modal onClose={this.clickImage}>
+                <img
+                  src={modalImage}
+                  alt={modalImage}
+                ></img>
+              </Modal>
+            )}
+          </ImageList>
+          {hasMore && <LoadMore addImage={this.countPage}></LoadMore>}
+        </>
       );
     }
 
-    if (this.state.status === 'rejected') {
+    if (status === 'rejected') {
       return alert('ERR SERVER');
     }
 
-    if (this.state.status === 'pending') {
+    if (status === 'pending') {
       return <Loader />;
     }
   }

@@ -1,7 +1,7 @@
 import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import { Component } from 'react';
-import  LoadMore  from "../Button/Button";
+// import  LoadMore  from "../Button/Button";
 import {AppStyle} from './AppStyledComponent';
 
 export default class App extends Component {
@@ -10,7 +10,8 @@ export default class App extends Component {
     page: 1,
     imageArr: [],
     loadMore: false,
-    totalHits: ''
+    totalHits: '',
+    status: ''
   };
 
   handleSearch = ({ name }) => {
@@ -21,17 +22,18 @@ export default class App extends Component {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
 
-  handleTotalHits = ({totalHits, hits}) => {
+  handleTotalHits = ({totalHits, imageArr, status}) => {
 
     this.setState(prev=>({
-      totalHits, imageArr: [...prev.imageArr, ...hits]
+      totalHits, imageArr: [...prev.imageArr, ...imageArr], status: status
       // loadMore: this.state.page < Math.ceil(totalHits / this.state.page),
     }));
   };
 
   render() {
-    const { imageArr, totalHits } = this.state;
-    const hasMore = imageArr.length < totalHits && imageArr.length > 0;
+    // const { imageArr, totalHits, status } = this.state;
+    // const hasMore = imageArr.length < totalHits && imageArr.length > 0;
+    // console.log(status);
 
     return (
       <AppStyle>
@@ -43,8 +45,12 @@ export default class App extends Component {
           handleTotalHits={this.handleTotalHits}
         />
         
-        {hasMore && <LoadMore addImage={this.countPage}></LoadMore>}
+        {/* {hasMore && <LoadMore addImage={this.countPage}></LoadMore>} */}
       </AppStyle>
     );
   }
 }
+
+
+
+

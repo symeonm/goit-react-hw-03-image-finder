@@ -8,20 +8,16 @@ import { Component } from 'react';
 export default class ImageGalleryItem extends Component {
   // console.log(clickImage);
 
-
- 
-
   render() {
-    const { imageArr } = this.props.ImageState;
-    
-    return imageArr.map(({ id, webformatURL, largeImageURL }) => (
+    const { webformatURL, largeImageURL, clickImage } = this.props;
+
+    return (
       <ImageGalleryItemSt
         className="gallery-item"
-        key={id}
-        onClick={() => this.props.clickImage(largeImageURL)}
+        onClick={() => clickImage(largeImageURL)}
       >
         <ImageGalleryItemImage src={webformatURL} alt={webformatURL} />
       </ImageGalleryItemSt>
-    ));
+    );
   }
 }

@@ -13,12 +13,13 @@ export default class ImageGallery extends Component {
     error: '',
     modalImage: '',
     totalHits: '',
+    page: 1
   };
 
-  componentDidUpdate(prevProps, _) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       prevProps.nameImage !== this.props.nameImage ||
-      prevProps.page !== this.props.page
+      prevState.page !== this.state.page
     ) {
       this.setState({ status: 'pending' });
 
@@ -26,7 +27,7 @@ export default class ImageGallery extends Component {
         this.setState({ imageArr: [] });
       }
 
-      apiImage(this.props.nameImage, this.props.page)
+      apiImage(this.props.nameImage, this.state.page)
         .then(data => {
           if (data.hits.length === 0 || this.props.nameImage === '') {
             this.setState({ imageArr: [], status: 'idle' });
@@ -54,23 +55,28 @@ export default class ImageGallery extends Component {
     }));
   };
 
+  countPage = () => {
+    this.setState(prev => ({ page: prev.page + 1 }));
+  };
+
   render() {
-    const {imageArr, totalHits, status, modalImage, showModal}= this.state
+    const { imageArr, totalHits, status, modalImage, showModal } = this.state;
     const hasMore = imageArr.length < totalHits && imageArr.length > 0;
     if (status === 'resolved') {
       return (
         <>
           <ImageList className="gallery">
-            <ImageGalleryItem
-              ImageState={this.state}
-              clickImage={this.clickImage}
-            />
+            {imageArr.map(({ id, webformatURL, largeImageURL }) => (
+              <ImageGalleryItem
+                key={id}
+                webformatURL={webformatURL}
+                largeImageURL={largeImageURL}
+                clickImage={this.clickImage}
+              />
+            ))}
             {showModal && (
               <Modal onClose={this.clickImage}>
-                <img
-                  src={modalImage}
-                  alt={modalImage}
-                ></img>
+                <img src={modalImage} alt={modalImage}></img>
               </Modal>
             )}
           </ImageList>

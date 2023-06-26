@@ -18,9 +18,7 @@ export default class App extends Component {
     this.setState({ nameImage: name, page: 1 });
   };
 
-  countPage = () => {
-    this.setState(prev => ({ page: prev.page + 1 }));
-  };
+ 
 
   handleTotalHits = ({totalHits, imageArr, status}) => {
 
@@ -41,7 +39,6 @@ export default class App extends Component {
         <ImageGallery
           nameImage={this.state.nameImage}
           page={this.state.page}
-          countPage={this.countPage}
           handleTotalHits={this.handleTotalHits}
         />
         

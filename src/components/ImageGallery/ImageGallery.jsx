@@ -16,6 +16,8 @@ export default class ImageGallery extends Component {
     page: 1
   };
 
+ 
+
   componentDidUpdate(prevProps, prevState) {
     if (
       prevProps.nameImage !== this.props.nameImage ||
@@ -24,9 +26,10 @@ export default class ImageGallery extends Component {
       this.setState({ status: 'pending' });
 
       if (prevProps.nameImage !== this.props.nameImage) {
-        this.setState({ page: 1, imageArr: []});
+       this.setState({page: 1, imageArr: []})
       }
 
+      console.log(this.state.page);
       apiImage(this.props.nameImage, this.state.page)
         .then(data => {
           if (data.hits.length === 0 || this.props.nameImage === '') {

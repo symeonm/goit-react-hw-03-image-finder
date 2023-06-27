@@ -24,7 +24,7 @@ export default class ImageGallery extends Component {
       this.setState({ status: 'pending' });
 
       if (prevProps.nameImage !== this.props.nameImage) {
-        this.setState({ imageArr: [] });
+        this.setState({ page: 1, imageArr: []});
       }
 
       apiImage(this.props.nameImage, this.state.page)

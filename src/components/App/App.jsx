@@ -7,15 +7,11 @@ import {AppStyle} from './AppStyledComponent';
 export default class App extends Component {
   state = {
     nameImage: '',
-    page: 1,
-    imageArr: [],
-    loadMore: false,
-    totalHits: '',
-    status: ''
+    imageArr: []
   };
 
   handleSearch = ({ name }) => {
-    this.setState({ nameImage: name, page: 1 });
+    this.setState({ nameImage: name });
   };
 
  
@@ -29,20 +25,14 @@ export default class App extends Component {
   };
 
   render() {
-    // const { imageArr, totalHits, status } = this.state;
-    // const hasMore = imageArr.length < totalHits && imageArr.length > 0;
-    // console.log(status);
 
     return (
       <AppStyle>
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery
           nameImage={this.state.nameImage}
-          page={this.state.page}
           handleTotalHits={this.handleTotalHits}
         />
-        
-        {/* {hasMore && <LoadMore addImage={this.countPage}></LoadMore>} */}
       </AppStyle>
     );
   }

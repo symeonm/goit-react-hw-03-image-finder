@@ -25,6 +25,7 @@ export default class App extends Component {
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery
           nameImage={this.state.nameImage}
+          pageProp={this.state.page}
           // handleTotalHits={this.handleTotalHits}
         />
       </AppStyle>

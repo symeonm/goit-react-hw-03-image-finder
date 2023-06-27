@@ -17,31 +17,22 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.nameImage !== this.props.nameImage ||
-      prevState.page !== this.state.page
-    ) {
+    const prevName = prevProps.nameImage;
+    const prevPage = prevState.page;
+    if (prevName !== this.props.nameImage || prevPage !== this.state.page) {
       this.setState({ status: 'pending' });
 
-      // if (prevProps.nameImage !== this.props.nameImage) {
-      //   this.setState({page: 1, imageArr: []})
-      //  }
-
-      // console.log(prevProps.nameImage)
-
-      // console.log(this.state.page);
-      // if (condition) {
-
-      // }
-      // console.log(this.state.page);
       apiImage(this.props.nameImage, this.state.page)
         .then(data => {
           if (data.hits.length === 0 || this.props.nameImage === '') {
             this.setState({ imageArr: [], status: 'idle' });
-            console.log(
+            alert(
               `Зображень за запитом: ${this.props.nameImage} не існує`
             );
-          } else if (prevProps.nameImage !== this.props.nameImage && this.state.page > 1) {
+          } else if (
+            prevProps.nameImage !== this.props.nameImage &&
+            this.state.page > 1
+          ) {
             this.setState({ page: 1, imageArr: [] });
           } else {
             this.setState(prev => ({
